@@ -6,9 +6,6 @@ public class HighlightObject : MonoBehaviour
 {
 
     [SerializeField]
-    private List<Renderer> renderers;
-
-    [SerializeField]
     [ColorUsageAttribute(false, true)]
     private Color highlightColor;
 
@@ -18,12 +15,11 @@ public class HighlightObject : MonoBehaviour
     {
         materials = new List<Material>();
 
-        foreach (var render in renderers)
+        foreach(Material render in GetComponent<MeshRenderer>().materials)
         {
-
-            materials.AddRange(new List<Material>(render.materials));
-
+            materials.Add(render);
         }
+
     }
 
     public void ToggleHighlight(bool value)
@@ -50,11 +46,6 @@ public class HighlightObject : MonoBehaviour
 
         }
 
-    }
-
-    public void ChangeColor(Color color)
-    {
-        highlightColor = color;
     }
 
 }
