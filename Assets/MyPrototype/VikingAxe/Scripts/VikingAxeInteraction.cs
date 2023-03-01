@@ -4,40 +4,46 @@ public class VikingAxeInteraction : MonoBehaviour
 {
 
     private PlayerControl playerControl;
+    private HighlightManager highlightManager;
 
-    private bool isNearAxe;
-
-    private void Awake()
-    {
-        isNearAxe = false;
-    }
+    private bool isActive;
 
     private void Start()
     {
         var player = GameObject.FindWithTag("Player");
         playerControl = player.GetComponent<PlayerControl>();
         playerControl.EPlayerInteract += TakeAxe;
+
+        var highlighter = GameObject.Find("HighlightManager");
+        if (highlighter == null)
+        {
+            Debug.Log("Warning: Unable to find Highlight Manager");
+        }
+        else
+        {
+            highlightManager = highlighter.GetComponent<HighlightManager>();
+            highlightManager.OnHighlightObject += OnHighlight;
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnHighlight(string objectName, bool isHighlighted)
     {
-        isNearAxe = true;
-        GetComponent<HightLight>()?.ToggleHighlight(true);
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        isNearAxe = false;
-        GetComponent<HightLight>()?.ToggleHighlight(false);
+        if(objectName == gameObject.name)
+        {
+            isActive = isHighlighted;
+        }
+        
     }
-
 
     private void TakeAxe()
     {
-        if (isNearAxe == true)
+
+        if (isActive == true)
         {
             playerControl.ColectAxe();
             playerControl.EPlayerInteract -= TakeAxe;
+            highlightManager.OnHighlightObject -= OnHighlight;
             Destroy(gameObject);
         }
         

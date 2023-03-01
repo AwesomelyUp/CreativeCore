@@ -8,54 +8,44 @@ public class DoorLock : MonoBehaviour
     [ColorUsageAttribute(false, true)]
     private Color disabledColor;
 
-    [SerializeField]
-    [ColorUsageAttribute(false, true)]
-    private Color enabledColor;
-
     public GameObject door;
 
     private PlayerControl playerControl;
+    private HighlightManager highlightManager;
 
-    private bool isNear = false;
+    private bool isActive = false;
 
     private void Start()
     {
         var player = GameObject.FindWithTag("Player");
         playerControl = player.GetComponent<PlayerControl>();
         playerControl.EPlayerInteract += OpenDoor;
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-
-        if(other.tag == "Player")
+        var highlighter = GameObject.Find("HighlightManager");
+        if (highlighter == null)
         {
-            if (playerControl.IsAxeColected)
-            {
-                GetComponent<HightLight>()?.ChangeColor(enabledColor);
-            }
-            else
-            {
-                GetComponent<HightLight>()?.ChangeColor(disabledColor);
-            }
-
-            isNear = true;
-            GetComponent<HightLight>()?.ToggleHighlight(true);
+            Debug.Log("Warning: Unable to find Highlight Manager");
         }
-
+        else
+        {
+            highlightManager = highlighter.GetComponent<HighlightManager>();
+            highlightManager.OnHighlightObject += OnHighlight;
+        }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnHighlight(string objectName, bool isHighlighted)
     {
-        isNear = false;
-        GetComponent<HightLight>()?.ToggleHighlight(false);
+        if (objectName == gameObject.name)
+        {
+            isActive = isHighlighted;
+        }
     }
-
 
     private void OpenDoor()
     {
-        if (isNear == true && playerControl.IsAxeColected==true)
+        if (isActive == true && playerControl.IsAxeColected==true)
         {
+            highlightManager.OnHighlightObject -= OnHighlight;
             playerControl.EPlayerInteract -= OpenDoor;
             Destroy(gameObject);
             door.GetComponent<Rigidbody>().isKinematic = false;
