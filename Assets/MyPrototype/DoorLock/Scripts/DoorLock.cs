@@ -37,6 +37,17 @@ public class DoorLock : MonoBehaviour
     {
         if (objectName == gameObject.name)
         {
+            if (!playerControl.IsAxeColected)
+            {
+                var materials = GetComponent<MeshRenderer>().materials;
+
+                foreach(var material in materials)
+                {
+                    material.SetColor("_EmissionColor", disabledColor);
+                }
+                
+            }
+
             isActive = isHighlighted;
         }
     }
