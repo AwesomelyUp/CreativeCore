@@ -155,13 +155,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 266549817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a9045ef2f6cf4d8c9642ded461954ff, type: 3}
+  m_Script: {fileID: 11500000, guid: f3decbaf074bf493b913f56aa8582ef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 8
-  getDistance: 100
 --- !u!1001 &319190623
 PrefabInstance:
   m_ObjectHideFlags: 0

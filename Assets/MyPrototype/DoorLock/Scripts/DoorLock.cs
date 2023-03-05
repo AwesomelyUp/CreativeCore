@@ -59,7 +59,8 @@ public class DoorLock : MonoBehaviour
             highlightManager.OnHighlightObject -= OnHighlight;
             playerControl.EPlayerInteract -= OpenDoor;
             Destroy(gameObject);
-            door.GetComponent<Rigidbody>().isKinematic = false;
+            door.GetComponent<Animator>().SetTrigger("open");
+            
         }
         
     }
