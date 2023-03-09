@@ -45,8 +45,6 @@ public class HighlightManager : MonoBehaviour
 
         Ray ray = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
 
-        Debug.DrawRay(ray.origin, ray.direction * MaxDistance, Color.red);
-
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, MaxDistance, LayerMask))
@@ -74,6 +72,7 @@ public class HighlightManager : MonoBehaviour
             {
                 material.SetColor("_EmissionColor", Color);
                 material.EnableKeyword("_EMISSION");
+                OnHighlightObject?.Invoke(highlightGameObject.name, setHighlight);
             }
 
         }
@@ -84,8 +83,6 @@ public class HighlightManager : MonoBehaviour
                 material.DisableKeyword("_EMISSION");
             }
         }
-
-        OnHighlightObject?.Invoke(highlightGameObject.name, setHighlight);
 
     }
 

@@ -6,7 +6,7 @@ public class VikingAxeInteraction : MonoBehaviour
     private PlayerControl playerControl;
     private HighlightManager highlightManager;
 
-    private bool isActive;
+    private bool isActive= false;
 
     private void Start()
     {
@@ -32,6 +32,10 @@ public class VikingAxeInteraction : MonoBehaviour
         if(objectName == gameObject.name)
         {
             isActive = isHighlighted;
+        }
+        else
+        {
+            isActive = false;
         }
         
     }

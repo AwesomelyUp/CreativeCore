@@ -50,6 +50,10 @@ public class DoorLock : MonoBehaviour
 
             isActive = isHighlighted;
         }
+        else
+        {
+            isActive = false;
+        }
     }
 
     private void OpenDoor()
